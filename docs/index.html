@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<meta property="og:title" content="しゃべる99表">
+		<meta property="og:title" content="青空文庫読み上げ">
                 <meta property="og:description" content="しゃべる9x9の表だよ、表の数字の箇所を押してみよう">
                 <meta property="og:image" content="https://freddiefujiwara.com/kuku/images/demo.gif">
                 <meta property="og:url" content="https://freddiefujiwara.com/kuku/">
@@ -57,7 +57,7 @@ a:hover {
 	color: white;
 }
 		</style>
-		<title>しゃべる99表</title>
+		<title>青空文庫読み上げ</title>
 	</head>
 	<body>
     <div id="contents"></div>
@@ -72,7 +72,7 @@ const play = (message) => {
 };
 (async() => {
 	const data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
-	document.getElementById("contents").innerHTML = data.contents.join("<br />");
+	document.getElementById("contents").innerHTML = "<p>"+data.contents.join("</p><p>") + "</p>";
 	for (let c of data.contents) {
 		play(c);
 		await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
