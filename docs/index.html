@@ -25,6 +25,10 @@ p.done {
 	color:white;
 	background-color:black;
 			}
+p.reading {
+	color:white;
+	background-color:yellow;
+			}
 		</style>
 		<title>青空文庫読み上げ</title>
 	</head>
@@ -44,8 +48,9 @@ const play = (message) => {
 	document.getElementById("contents").innerHTML = "<p>"+data.contents.join("</p><p>") + "</p>";
 	for (let c of data.contents) {
 		play(c);
+		document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`),`<p class="reading">${c}`);
 		await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
-		document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`),`<p class="done">${c}`);
+		document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`),`<p class="done">${c}`);
 	}
 })();
             </script>
