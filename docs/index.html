@@ -64,19 +64,19 @@ a:hover {
 		<audio id="audio" src=""></audio>
 	        <script type="text/javascript">
 const play = (message) => {
-  const a = document.getElementById('audio');
-  a.pause();
-  a.currentTime = 0;
-  a.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(message)}`;
-  a.play();
+	const a = document.getElementById('audio');
+	a.pause();
+	a.currentTime = 0;
+	a.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(message)}`;
+	a.play();
 };
 const data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
 document.getElementById("contents").innerHTML = data.contents.join("<br />");
-(async () => {
-  for (let c of data.contents) {
-    play(c);
-    await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
-  }
+(async() => {
+	for (let c of data.contents) {
+		play(c);
+		await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
+	}
 })();
             </script>
 	</body>
