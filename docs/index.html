@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta property="og:title" content="しゃべる99表">
+                <meta property="og:description" content="しゃべる9x9の表だよ、表の数字の箇所を押してみよう">
+                <meta property="og:image" content="https://freddiefujiwara.com/kuku/images/demo.gif">
+                <meta property="og:url" content="https://freddiefujiwara.com/kuku/">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="twitter:card" content="summary_large_image">
+                <meta name="twitter:site" content="@freddiefujiwara">
+                <meta name="twitter:creator" content="@freddiefujiwara">
+                <meta name="twitter:title" content="しゃべる99表">
+                <meta name="twitter:description" content="しゃべる9x9の表だよ、表の数字の箇所を押してみよう">
+                <meta name="twitter:image" content="https://freddiefujiwara.com/kuku/images/twitter.jpg">
+		<link rel="manifest" href="manifest.json">
+		<link rel="icon" href="icon/icon-32x32.png" />
+		<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+* {
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+table {
+	width: 100%;
+	font-size: 14px;
+	color: black;
+}
+thead {
+	background-color: gray;
+	color: white;
+}
+th,td {
+	border: 0;
+	height: 50px;
+	border-bottom: 1px solid gray;
+	border-right: 1px solid gray;
+	text-align: center;
+}
+
+td.head {
+	background-color: gray;
+	color: white;
+}
+a {
+	width: 100%;
+	height:100%;
+	display: block;
+	text-align: center;
+	padding-top:15px;
+	color:inherit;
+	text-decoration: none;
+	font-weight:bold;
+}
+a:hover {
+	background-color: black;
+	color: white;
+}
+		</style>
+		<title>しゃべる99表</title>
+	</head>
+	<body>
+    <div id="contents"></div>
+		<audio id="audio" src=""></audio>
+	        <script type="text/javascript">
+    const data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
+    document.getElementById("contents").innerHTML = data.contents.join("<br />");
+(async () => {
+  for (let c of data.contents) {
+    play(c);
+    await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
+  }
+})();
+    </script>
+	</body>
+</html>
