@@ -7,7 +7,8 @@ exports.aozora = async (req, res) => {
   data.contents = data.html.split("\n").join()
     .replace(/.*class="main_text">/g, '')
     .replace(/<div class="bibliographical_information.*$/g, '')
-    .replace(/<ruby>(.*?)<\/ruby>/g, '')
+    .replace(/<rp>(.*?)<\/rp>/g, '')
+    .replace(/<rt>(.*?)<\/rt>/g, '')
     .replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
     .split("。");
   res
