@@ -63,13 +63,13 @@ a:hover {
     <div id="contents"></div>
 		<audio id="audio" src=""></audio>
 	        <script type="text/javascript">
-			const play = (message) => {
+const play = (message) => {
   const a = document.getElementById('audio');
   a.pause();
   a.currentTime = 0;
   a.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(message)}`;
   a.play();
-}
+};
 const data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
 document.getElementById("contents").innerHTML = data.contents.join("<br />");
 (async () => {
