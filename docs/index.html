@@ -70,9 +70,9 @@ const play = (message) => {
 	a.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(message)}`;
 	a.play();
 };
-const data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
-document.getElementById("contents").innerHTML = data.contents.join("<br />");
 (async() => {
+	const data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
+	document.getElementById("contents").innerHTML = data.contents.join("<br />");
 	for (let c of data.contents) {
 		play(c);
 		await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
