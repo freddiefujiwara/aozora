@@ -1,90 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta property="og:title" content="青空文庫読み上げ">
-                <meta property="og:description" content="しゃべる9x9の表だよ、表の数字の箇所を押してみよう">
-                <meta property="og:image" content="https://freddiefujiwara.com/kuku/images/demo.gif">
-                <meta property="og:url" content="https://freddiefujiwara.com/kuku/">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="twitter:card" content="summary_large_image">
-                <meta name="twitter:site" content="@freddiefujiwara">
-                <meta name="twitter:creator" content="@freddiefujiwara">
-                <meta name="twitter:title" content="しゃべる99表">
-                <meta name="twitter:description" content="しゃべる9x9の表だよ、表の数字の箇所を押してみよう">
-                <meta name="twitter:image" content="https://freddiefujiwara.com/kuku/images/twitter.jpg">
-		<link rel="manifest" href="manifest.json">
-		<link rel="icon" href="icon/icon-32x32.png" />
-		<style>
-@import url('https://fonts.googleapis.com/css?family=Roboto:300');
-* {
-	box-sizing: border-box;
-	font-family: 'Roboto', sans-serif;
-}
-p.done {
-	color:white;
-	background-color:black;
-			}
-p.reading {
-	background-color:yellow;
-			}
-a.start {
-	width: 100%;
-	height:100%;
-	display: block;
-	text-align: center;
-	text-decoration: none;
-	font-weight:bold;
-}
-a.start:hover {
-	background-color: black;
-	color: white;
-}
-		</style>
-		<title id="title">青空文庫読み上げ</title>
-	</head>
-	<body>
-		<h1 id="header"></h1>
-		<a href="javascript:start()" class"start">start</a>
-    <div id="contents"></div>
-		<audio id="audio" src=""></audio>
-	        <script type="text/javascript">			
-const getParam = (name, url) => {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
-  if (!results) return '';
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
-};
-let data = {};
-let index = 0;
-const id = getParam("id") || 100;
-const audio = document.getElementById("audio");
-(async () => {
-  data = JSON.parse(await (await fetch(`https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora?id=${id}`)).text());
-  document.getElementById("header").innerText = `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",")})`;
-  document.getElementById("title").innerText += ` - ${document.getElementById("header").innerText})`;
-  document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
-})();
-			
-const start = () => {
-  let c = data.contents[index];
-  document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
-  audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
-  audio.play();
-  audio.addEventListener('ended', () => {
-    document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
-    index++;
-    c = data.contents[index];
-    if (index < data.contents.length) {
-      audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
-      audio.play();
-      document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
-    }
-  });
-};
-            </script>
-	</body>
+   <head>
+      <meta charset="UTF-8">
+      <meta property="og:title" content="青空文庫読み上げ">
+      <meta property="og:description" content="しゃべる9x9の表だよ、表の数字の箇所を押してみよう">
+      <meta property="og:image" content="https://freddiefujiwara.com/kuku/images/demo.gif">
+      <meta property="og:url" content="https://freddiefujiwara.com/kuku/">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:site" content="@freddiefujiwara">
+      <meta name="twitter:creator" content="@freddiefujiwara">
+      <meta name="twitter:title" content="しゃべる99表">
+      <meta name="twitter:description" content="しゃべる9x9の表だよ、表の数字の箇所を押してみよう">
+      <meta name="twitter:image" content="https://freddiefujiwara.com/kuku/images/twitter.jpg">
+      <link rel="manifest" href="manifest.json">
+      <link rel="icon" href="icon/icon-32x32.png" />
+      <style>
+         @import url('https://fonts.googleapis.com/css?family=Roboto:300');
+         * {
+         box-sizing: border-box;
+         font-family: 'Roboto', sans-serif;
+         }
+         p.done {
+         color:white;
+         background-color:black;
+         }
+         p.reading {
+         background-color:yellow;
+         }
+         a.start {
+         width: 100%;
+         height:100%;
+         display: block;
+         text-align: center;
+         text-decoration: none;
+         font-weight:bold;
+         }
+         a.start:hover {
+         background-color: black;
+         color: white;
+         }
+      </style>
+      <title id="title">青空文庫読み上げ</title>
+   </head>
+   <body>
+      <h1 id="header"></h1>
+      <a href="javascript:start()" class-"start">start</a>
+      <div id="contents"></div>
+      <audio id="audio" src=""></audio>
+      <script type="text/javascript">			
+         const getParam = (name, url) => {
+           if (!url) url = window.location.href;
+           name = name.replace(/[\[\]]/g, "\\$&");
+           var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+             results = regex.exec(url);
+           if (!results) return '';
+           if (!results[2]) return '';
+           return decodeURIComponent(results[2].replace(/\+/g, " "));
+         };
+         let data = {};
+         let index = 0;
+         const id = getParam("id") || 100;
+         const audio = document.getElementById("audio");
+         (async () => {
+           data = JSON.parse(await (await fetch(`https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora?id=${id}`)).text());
+           document.getElementById("header").innerText = `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",")})`;
+           document.getElementById("title").innerText += ` - ${document.getElementById("header").innerText})`;
+           document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
+         })();
+         			
+         const start = () => {
+           let c = data.contents[index];
+           document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
+           audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
+           audio.play();
+           audio.addEventListener('ended', () => {
+             document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
+             index++;
+             c = data.contents[index];
+             if (index < data.contents.length) {
+               audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
+               audio.play();
+               document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
+             }
+           });
+         };
+                     
+      </script>
+   </body>
 </html>
