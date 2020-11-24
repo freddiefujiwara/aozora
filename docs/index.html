@@ -77,7 +77,7 @@ const start = () => {
   audio.play();
   audio.addEventListener('ended', () => {
     if (document.getElementsByClassName("reading").length > 0) {
-      const nextTop = document.getElementsByClassName("reading")[0].getBoundingClientRect().top + 10.0;
+      const nextTop = document.getElementsByClassName("reading")[0].getBoundingClientRect().top + 30.0;
       if (nextTop > t){
          scrollTo(0, nextTop);
          t = nextTop;
