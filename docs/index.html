@@ -52,7 +52,7 @@ const id = getParam("id") || 100;
 const audio = document.getElementById("audio");
 (async () => {
   data = JSON.parse(await (await fetch(`https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora?id=${id}`)).text());
-  document.getElementById("title").innerText = `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",")})`;
+  document.getElementById("title").innerText = `${data.title} - (${data.authors.map((a)=>{a.last_name+a.first_name}).join(",")})`;
 })();
 const start = () => {
   document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
