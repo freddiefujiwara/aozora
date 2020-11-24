@@ -42,7 +42,7 @@ const audio = document.getElementById("auidio");
 const start = async () => {
   data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
   document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
-  audio.addEventListener('ended', () => {
+  audio.addEventListener('ended', async () => {
     index++;
     const c = data.contents[index];
     if (index < data.contents.length) {
