@@ -45,7 +45,7 @@ const getParam = (name, url) => {
   if (!results) return '';
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+};
 let data = {};
 let index = 0;
 const id = getParam("id") || 100;
