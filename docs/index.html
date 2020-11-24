@@ -58,7 +58,7 @@ const start = async () => {
     }
   });
 };
-const getParam (name, url) => {
+const getParam = (name, url) => {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");
   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
