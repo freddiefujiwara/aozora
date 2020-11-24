@@ -50,45 +50,46 @@
       <audio id="audio" src=""></audio>
       <script type="text/javascript">			
          const getParam = (name, url) => {
-           if (!url) url = window.location.href;
-           name = name.replace(/[\[\]]/g, "\\$&");
-           var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-             results = regex.exec(url);
-           if (!results) return '';
-           if (!results[2]) return '';
-           return decodeURIComponent(results[2].replace(/\+/g, " "));
-         };
-         let data = {};
-         let index = 0;
-         let t = 0;
-         const id = getParam("id") || 100;
-         const audio = document.getElementById("audio");
-         (async () => {
-           data = JSON.parse(await (await fetch(`https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora?id=${id}`)).text());
-           document.getElementById("header").innerText = `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",")})`;
-           document.getElementById("title").innerText += ` - ${document.getElementById("header").innerText})`;
-           document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
-         })();
-         			
-         const start = () => {
-           let c = data.contents[index];
-           document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
-           audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
-           audio.play();
-           audio.addEventListener('ended', () => {
-             const nextTop =  Array.prototype.slice.call(document.getElementsByClassName("done")).slice(-1)[0].getBoundingClientRect().top;
-             if(nextTop > t)scrollTo(0,nextTop);
-             document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
-             index++;
-             c = data.contents[index];
-             if (index < data.contents.length) {
-               audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
-               audio.play();
-               document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
-             }
-           });
-         };
-                     
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return '';
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+};
+let data = {};
+let index = 0;
+let t = 0;
+const id = getParam("id") || 100;
+const audio = document.getElementById("audio");
+(async () => {
+  data = JSON.parse(await (await fetch(`https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora?id=${id}`)).text());
+  document.getElementById("header").innerText = `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",")})`;
+  document.getElementById("title").innerText += ` - ${document.getElementById("header").innerText})`;
+  document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
+})();
+
+const start = () => {
+  let c = data.contents[index];
+  document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
+  audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
+  audio.play();
+  audio.addEventListener('ended', () => {
+    if (document.getElementsByClassName("done").length > 0) {
+      const nextTop = Array.prototype.slice.call(document.getElementsByClassName("done")).slice(-1)[0].getBoundingClientRect().top;
+      if (nextTop > t) scrollTo(0, nextTop);
+    }
+    document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
+    index++;
+    c = data.contents[index];
+    if (index < data.contents.length) {
+      audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
+      audio.play();
+      document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
+    }
+  });
+};              
       </script>
    </body>
 </html>
