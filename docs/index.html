@@ -36,22 +36,21 @@ p.reading {
     <div id="contents"></div>
 		<audio id="audio" src=""></audio>
 	        <script type="text/javascript">
-const play = (message) => {
-  const a = document.getElementById('audio');
-  a.pause();
-  a.currentTime = 0;
-  a.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(message)}`;
-  a.play();
-};
+let data = {};
 const start = async () => {
-  const data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
+  data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
   document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
-  for (let c of data.contents) {
-    play(c);
-    document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
-    await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
-    document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
-  }
+  let index = 0;
+  audio.addEventListener('ended', function() {
+    index++;
+    if (index < data.contents.length) {
+      audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(data.contents[index])}`;
+      audio.play();
+      document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
+      await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
+      document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
+    }
+  });
 };
             </script>
 	</body>
