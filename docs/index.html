@@ -37,14 +37,16 @@ p.reading {
 		<audio id="audio" src=""></audio>
 	        <script type="text/javascript">
 let data = {};
+let index = 0;
+const audio = document.getElementById("auidio");
 const start = async () => {
   data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
   document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
-  let index = 0;
-  audio.addEventListener('ended', function() {
+  audio.addEventListener('ended', () => {
     index++;
+    const c = data.contents[index];
     if (index < data.contents.length) {
-      audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(data.contents[index])}`;
+      audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
       audio.play();
       document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
       await new Promise(resolve => setTimeout(resolve, c.length * 0.35 * 1000));
