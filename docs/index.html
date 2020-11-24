@@ -60,7 +60,7 @@
          };
          let data = {};
          let index = 0;
-         let top = 0;
+         let t = 0;
          const id = getParam("id") || 100;
          const audio = document.getElementById("audio");
          (async () => {
@@ -77,7 +77,7 @@
            audio.play();
            audio.addEventListener('ended', () => {
              const nextTop =  Array.prototype.slice.call(document.getElementsByClassName("done")).slice(-1)[0].getBoundingClientRect().top;
-             if(nextTop > top)scrollTo(0,nextTop);
+             if(nextTop > t)scrollTo(0,nextTop);
              document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
              index++;
              c = data.contents[index];
