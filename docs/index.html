@@ -38,7 +38,7 @@ p.reading {
 	        <script type="text/javascript">
 let data = {};
 let index = 0;
-const audio = document.getElementById("auidio");
+const audio = document.getElementById("audio");
 const start = async () => {
   data = JSON.parse(await (await fetch("https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora")).text());
   document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
