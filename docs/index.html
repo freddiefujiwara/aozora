@@ -32,11 +32,11 @@ p.reading {
 		<title>青空文庫読み上げ</title>
 	</head>
 	<body>
+		<h1 id="title"></h1>
 		<a href="javascript:start()">start</a>
     <div id="contents"></div>
 		<audio id="audio" src=""></audio>
-	        <script type="text/javascript">
-			
+	        <script type="text/javascript">			
 const getParam = (name, url) => {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");
@@ -50,14 +50,17 @@ let data = {};
 let index = 0;
 const id = getParam("id") || 100;
 const audio = document.getElementById("audio");
-const start = async () => {
+(async () => {
   data = JSON.parse(await (await fetch(`https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora?id=${id}`)).text());
+  document.getElementById("title").innerText = `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",");})`;
+})();
+const start = () => {
   document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
-  let  c = data.contents[index];
+  let c = data.contents[index];
   document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
   audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
   audio.play();
-  audio.addEventListener('ended',  () => {    
+  audio.addEventListener('ended', () => {
     document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
     index++;
     c = data.contents[index];
