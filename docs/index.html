@@ -46,14 +46,14 @@ const start = async () => {
   document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
   audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
   audio.play();
-  audio.addEventListener('ended',  () => {
-    document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
+  audio.addEventListener('ended',  () => {    
+    document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
     index++;
     c = data.contents[index];
     if (index < data.contents.length) {
-      document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
       audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
       audio.play();
+      document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
     }
   });
 };
