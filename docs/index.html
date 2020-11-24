@@ -76,9 +76,12 @@ const start = () => {
   audio.src = `https://asia-northeast1-freddiefujiwara.cloudfunctions.net/tts?mp3=mp3&lang=ja&message=${encodeURIComponent(c)}`;
   audio.play();
   audio.addEventListener('ended', () => {
-    if (document.getElementsByClassName("done").length > 0) {
-      const nextTop = Array.prototype.slice.call(document.getElementsByClassName("done")).slice(-1)[0].getBoundingClientRect().top;
-      if (nextTop > t) scrollTo(0, nextTop);
+    if (document.getElementsByClassName("reading").length > 0) {
+      const nextTop = document.getElementsByClassName("reading")[0].getBoundingClientRect().top;
+      if (nextTop > t){
+         scrollTo(0, nextTop);
+         t = nextTop;
+      }
     }
     document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p class="reading">${c}`), `<p class="done">${c}`);
     index++;
