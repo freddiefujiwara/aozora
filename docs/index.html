@@ -28,12 +28,24 @@ p.done {
 p.reading {
 	background-color:yellow;
 			}
+a.start {
+	width: 100%;
+	height:100%;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-weight:bold;
+}
+a.start:hover {
+	background-color: black;
+	color: white;
+}
 		</style>
 		<title id="title">青空文庫読み上げ</title>
 	</head>
 	<body>
 		<h1 id="header"></h1>
-		<a href="javascript:start()">start</a>
+		<a href="javascript:start()" class"start">start</a>
     <div id="contents"></div>
 		<audio id="audio" src=""></audio>
 	        <script type="text/javascript">			
@@ -52,10 +64,11 @@ const id = getParam("id") || 100;
 const audio = document.getElementById("audio");
 (async () => {
   data = JSON.parse(await (await fetch(`https://asia-northeast1-freddiefujiwara.cloudfunctions.net/aozora?id=${id}`)).text());
-  document.getElementById("title").innerText += `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",")})`;
   document.getElementById("header").innerText = `${data.title} - (${data.authors.map((a)=>a.last_name+a.first_name).join(",")})`;
+  document.getElementById("title").innerText += ` - ${document.getElementById("header").innerText})`;
   document.getElementById("contents").innerHTML = "<p>" + data.contents.join("</p><p>") + "</p>";
 })();
+			
 const start = () => {
   let c = data.contents[index];
   document.getElementById("contents").innerHTML = document.getElementById("contents").innerHTML.replace(new RegExp(`<p>${c}`), `<p class="reading">${c}`);
